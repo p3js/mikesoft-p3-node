@@ -8,53 +8,47 @@ To install, run `npm install mikesoftp3`.
 
 ### To use
 
-The export is actually a constructor, which you can use to create P3 instances, like this:
+The export is a constructor, which you can use to create P3 instances, like this:
 ```js
-const P3=require("mikesoftp3")
-const p3=new P3()
+const P3 = require("mikesoftp3")
+const p3 = new P3()
 ```
 
-You can also use an existing P3 address if you have it's key, by doing this:
+You can also use an existing P3 address if you have its key, by doing this:
 ```js
-const P3=require("mikesoftp3")
-const p3=new P3("myp3secret444=")
+const P3 = require("mikesoftp3")
+const p3 = new P3("myp3secret444=")
 ```
 
 You can also specify configuration options, like this:
 ```js
-const P3=require("mikesoftp3")
-const p3=new P3({
+const p3 = new P3({
     autoinit: true,
-    secret:'myp3secret444=',
-    url:'wss://my-p3-relay.example.com/'
+    secret:   "myp3secret444=",
+    url:      "wss://my-p3-relay.example.com/"
 })
 ```
 
-To start listening on a port, use `P3.listen`.
+To start listening on a port, use `p3.listen`.
 ```js
-const P3=require('mikesoftp3')
-const p3=new P3({
-    autoinit:true,
-    secret:'examplefB3='
-})
-p3.listen(121, (client)=>{
-    client.emit(["TEXT",'if you are on superterm you will see this'])
-})
+p3.listen(121, client => client.emit(["TEXT", "If you are on superterm you will see this."]) )
 ```
 
 To listen to input from the client, use `client.on`.
 
 ```js
-const P3=require('mikesoftp3')
-const p3=new P3({
-    autoinit:true,
-    secret:'examplefB3='
-})
-p3.listen(121, (client)=>{
-    client.emit(["TEXT",'What is your name?'])
-    client.on('message',(data)=>{
-        if(data[0]=="INPUT") {
-            client.emit(['TEXT', `Hello, ${data[1]}`])
+p3.listen(121, client => {
+    /**
+     * The name of the user.
+     * @type {string}
+     */
+    let name;
+
+    client.emit(["TEXT", "What is your name?"])
+    client.on("message", data => {
+        if (data[0] == "INPUT") {
+            name = data[1]
+            client.emit(["TEXT", `Hello, ${name}.`])
         }
     })
 })
@@ -63,16 +57,11 @@ p3.listen(121, (client)=>{
 Besides hosting a P3 server, you can also connect to a P3 server.
 This example replies to the example above:
 ```js
-const P3=require('mikesoftp3')
-const p3=new P3({
-    autoinit:true,
-    secret:'examplefB3='
-})
-p3.on('connect',()=>{
-    var client=p3.createClient('gXbeUepTwY.ppp',121)
-    client.on('message',(data)=>{
-        if(data[1]=="What is your name?") {
-            client.emit(['INPUT','Barbra'])
+p3.on("connect", () => {
+    const client = p3.createClient("gXbeUepTwY.ppp", 121)
+    client.on("message", data => {
+        if (data[1] == "What is your name?") {
+            client.emit(["INPUT", "Barbra"])
         }
     })
 })
