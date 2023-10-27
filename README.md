@@ -46,8 +46,8 @@ p3.listen(121, client => {
 
     client.emit(["text", "What is your name?"])
     client.on("message", data => {
-        if (data[0] == "input") {
-            name = data[1]
+        if (data['data'][0] == "input") {
+            name = data['data'][1]
             client.emit(["text", `Hello, ${name}.`])
         }
     })
@@ -60,7 +60,7 @@ This example replies to the example above:
 p3.on("connect", () => {
     const client = p3.createClient("gXbeUepTwY.ppp", 121)
     client.on("message", data => {
-        if (data[1] == "What is your name?") {
+        if (data['data'][1] == "What is your name?") {
             client.emit(["input", "Barbra"])
         }
     })
