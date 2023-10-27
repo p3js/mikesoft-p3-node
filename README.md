@@ -31,7 +31,7 @@ const p3 = new P3({
 
 To start listening on a port, use `p3.listen`.
 ```js
-p3.listen(121, client => client.emit(["TEXT", "If you are on superterm you will see this."]) )
+p3.listen(121, client => client.emit(["text", "If you are on superterm you will see this."]) )
 ```
 
 To listen to input from the client, use `client.on`.
@@ -44,11 +44,11 @@ p3.listen(121, client => {
      */
     let name;
 
-    client.emit(["TEXT", "What is your name?"])
+    client.emit(["text", "What is your name?"])
     client.on("message", data => {
-        if (data[0] == "INPUT") {
+        if (data[0] == "input") {
             name = data[1]
-            client.emit(["TEXT", `Hello, ${name}.`])
+            client.emit(["text", `Hello, ${name}.`])
         }
     })
 })
@@ -61,7 +61,7 @@ p3.on("connect", () => {
     const client = p3.createClient("gXbeUepTwY.ppp", 121)
     client.on("message", data => {
         if (data[1] == "What is your name?") {
-            client.emit(["INPUT", "Barbra"])
+            client.emit(["input", "Barbra"])
         }
     })
 })
