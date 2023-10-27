@@ -524,7 +524,7 @@ skt.on("hello", function(e){
          * @param {string} event The name of the event to listen for.
          * @param {(...args:any[])=>any} handler The function to call when the event is triggered.
          */
-        on(event,handler)
+        on(event,handler) {}
     }
 
     class P3ClientPeer {
